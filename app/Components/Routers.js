@@ -24,7 +24,8 @@ import {
 // import CardStackStyleInterpolator from 'react-navigation/src/views/CardStackStyleInterpolator';
 // import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 
-import MovieList from './MovieList.js';
+import ClassicMovieList from './ClassicMovieList';
+import LatestMovieList from './LatestMovieList';
 import Test1 from './Test1.js';
 import Test2 from './Test2.js';
 import Test3 from './Test3.js';
@@ -44,12 +45,12 @@ const MainIcon = require('../../resources/img/Main.png');
 
 const MyTab = TabNavigator({
     Test0: {
-        screen: MovieList,
-        navigationOptions: () => TabOptions('经典推荐', ShiTuIcon, ShiTuIcon, 'hot'),
+        screen: ClassicMovieList,
+        navigationOptions: () => TabOptions('经典推荐', ShiTuIcon, ShiTuIcon, '经典'),
     },
     Test1: {
-        screen: Test1,
-        navigationOptions: () => TabOptions('Test1顶部标题', ShiTuIcon, ShiTuIcon, 'Test1底部标题'),
+        screen: LatestMovieList,
+        navigationOptions: () => TabOptions('最新上线', ShiTuIcon, ShiTuIcon, '最新'),
     },
     Test2: {
         screen: Test2,

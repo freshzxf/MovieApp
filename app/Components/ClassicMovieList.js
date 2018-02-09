@@ -12,7 +12,9 @@ import {
     View,
     Image,
     ListView,
-    TouchableHighlight
+    TouchableHighlight,
+    ProgressBarAndroid,
+    Modal,
 } from 'react-native';
 
 
@@ -50,7 +52,10 @@ export default class MovieList extends Component<Props> {
                     // alert('onShowUnderlay')
                 }}
                 onPress={() => {
-                    // alert('onPress')
+                    const {navigate} = this.props.navigation;
+                    navigate('Detail1', {
+                        headerTitle: '我是修改后的文字'
+                    });
                 }}
             >
                 <View style={styles.item}>
@@ -63,8 +68,11 @@ export default class MovieList extends Component<Props> {
                         <Text style={styles.itemMeta}>
                             {rowData.genres.join(' / ')}
                         </Text>
-                        <Text style={styles.redText}>
-                            {rowData.rating.average}
+                        <Text>
+                            评分：
+                            <Text style={styles.redText}>
+                                {rowData.rating.average}
+                            </Text>
                         </Text>
                     </View>
                 </View>
@@ -75,7 +83,19 @@ export default class MovieList extends Component<Props> {
     render() {
         if (!this.state.data) {//如果this.state.data没有数据(即网络请求未完成),则返回一个加载中的文本
             return (
-                <Text>loading...</Text>
+                <Modal
+                    transparent={true}
+                    onRequestClose={() => this.onRequestClose()}
+                >
+                    <View style={{
+                        flex:1,
+                        alignItems:"center",
+                        justifyContent:"center",
+                        backgroundColor:"rgba(0, 0, 0, 0.2)"
+                    }}>
+                        <ProgressBarAndroid styleAttr='Inverse' color='#6435c9'/>
+                    </View>
+                </Modal>
             );
         } else {
             return (
@@ -93,6 +113,7 @@ let styles = StyleSheet.create({
     redText: {
         color: '#db2828',
         fontSize: 15,
+        fontStyle:'italic'
     },
     itemMeta: {
         fontSize: 16,
