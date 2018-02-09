@@ -26,6 +26,9 @@ import {
 
 import ClassicMovieList from './ClassicMovieList';
 import LatestMovieList from './LatestMovieList';
+import CollectionMovieList from './CollectionMovieList';
+import MovieDetail from './MovieDetail';
+
 import Test1 from './Test1.js';
 import Test2 from './Test2.js';
 import Test3 from './Test3.js';
@@ -33,8 +36,6 @@ import Detail1 from './Detail1.js';
 import Detail2 from './Detail2.js';
 
 const ShiTuIcon = require('../../resources/img/ShiTu.png');
-const GankIcon = require('../../resources/img/Gank.png');
-const MainIcon = require('../../resources/img/Main.png');
 
 /**
  * 1、Test1是通过普通的属性创建的Tabbar和导航
@@ -42,30 +43,30 @@ const MainIcon = require('../../resources/img/Main.png');
  * 3、Test3是通过封装navigationOptions实现Tabbar和导航的
  */
 
-
+/*定义默认打开的首页*/
 const MyTab = TabNavigator({
-    Test0: {
+    Tab0: {
         screen: ClassicMovieList,
         navigationOptions: () => TabOptions('经典推荐', ShiTuIcon, ShiTuIcon, '经典'),
     },
-    Test1: {
+    Tab1: {
         screen: LatestMovieList,
         navigationOptions: () => TabOptions('最新上线', ShiTuIcon, ShiTuIcon, '最新'),
     },
-    Test2: {
-        screen: Test2,
-        navigationOptions: () => TabOptions('Test2顶部标题', ShiTuIcon, ShiTuIcon, 'Test2底部标题'),
+    Tab2: {
+        screen: CollectionMovieList,
+        navigationOptions: () => TabOptions('影片收藏', ShiTuIcon, ShiTuIcon, '收藏'),
     },
-    Test3: {
-        screen: Test3,
-        navigationOptions: () => TabOptions('Test3顶部标题', MainIcon, MainIcon, 'Test3底部标题'),
+    Tab3: {
+        screen: Test2,
+        navigationOptions: () => TabOptions('会员中心', ShiTuIcon, ShiTuIcon, '中心'),
     },
 }, {
     tabBarPosition: 'bottom', // 设置tabbar的位置，iOS默认在底部，安卓默认在顶部（属性值：'top'，'bottom')
     swipeEnabled: true, // 是否允许在标签之间进行滑动
     animationEnabled: false, // 是否在更改标签时显示动画
     lazy: true, // 是否根据需要懒惰呈现标签，而不是提前制作，意思是在app打开的时候将底部标签栏全部加载，默认false,推荐改成true哦
-    initialRouteName: '', // 设置默认的页面组件(默认是第一个tab页面)
+    initialRouteName: 'Tab1', // 设置默认的页面组件(默认是第一个tab页面)
     backBehavior: 'none', // 按 back 键是否跳转到第一个Tab(首页)， none 为不跳转
     tabBarOptions: {
         /* 安卓属性 */
@@ -107,6 +108,9 @@ export default MyApp = StackNavigator({
     // 将TabNavigator包裹在StackNavigator里面可以保证跳转页面的时候隐藏tabbar
     MyTab: {
         screen: MyTab,
+    },
+    MovieDetail: {
+        screen: MovieDetail,
     },
     Detail1: {
         screen: Detail1

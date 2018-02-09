@@ -22,20 +22,15 @@ import {
 
 /*导入路由组件*/
 import {
-    StackNavigator,
-    TabNavigator,
-    addNavigationHelpers,
     NavigationActions
 } from 'react-navigation'
 
 /* 通过自定义一个方法来实现页面跳转,并传递参数*/
-/*const navigateAction = NavigationActions.navigate({
-    routeName: 'Detail1',
-
-   // params: {headerTitle: 'hahaha'},
-
-    action: NavigationActions.navigate({routeName: 'Detail1'})
-})*/
+const navigateAction = NavigationActions.navigate({
+    routeName: 'MovieDetail',
+    params: {headerTitle: 'MovieDetail标题'},
+    action: NavigationActions.navigate({routeName: 'MovieDetail'})
+})
 
 export default class MovieList extends Component<Props> {
 
@@ -72,8 +67,8 @@ export default class MovieList extends Component<Props> {
                     // alert('onShowUnderlay')
                 }}
                 onPress={() => {
-                    /*const {dispatch} = this.props.navigation; //ES6解构赋值获取到navigation中的方法
-                    dispatch(navigateAction)*/
+                    const {dispatch} = this.props.navigation; //ES6解构赋值获取到navigation中的方法
+                    dispatch(navigateAction)
                 }}
             >
                 <View style={styles.item}>
@@ -120,8 +115,9 @@ export default class MovieList extends Component<Props> {
         } else {
             return (
                 <View style={styles.container}>
-                    <ListView dataSource={this.state.data}
-                              renderRow={this.renderMovieList}
+                    <ListView
+                        dataSource={this.state.data}
+                        renderRow={this.renderMovieList.bind(this)} //bind(this)能解决路由跳转问题
                     />
                 </View>
             );
