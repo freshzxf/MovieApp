@@ -1,45 +1,62 @@
 /**
-*Created by freshzxf on :
-*Function :
-*Desc :
-*/
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
+/*导入react*/
 import React, { Component } from 'react';
-import { View, Text, Image, } from 'react-native';
 
-export default class  extends Component {
-  render() {
-    return (
+/*导入基础组件*/
+import {
+    AppRegistry,
+    StyleSheet,
+} from 'react-native';
 
-    );
-  }
-}
-
+/*定义主要样式*/
 let styles = StyleSheet.create({
+    redText: {
+        color: '#db2828',
+        fontSize: 15,
+        fontStyle:'italic'
+    },
+    itemMetaOn: {
+        color: '#333',
+    },
+    itemMeta: {
+        fontSize: 16,
+        color: 'rgba(0,0,0,0.6)',
+        marginBottom: 6,
+    },
+    itemHeader: {
+        fontSize: 18,
+        fontFamily: 'Helvetica Neue',
+        fontWeight: '300',
+        color: '#6435c9',
+        marginBottom: 6,
+    },
+    itemContent: {
+        flex: 1,
+        marginLeft: 13,
+        marginTop: 6,
+    },
+    item: {
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        borderColor: 'rgba(100,53,201,0.1)',
+        // paddingBottom: 6,
+        flex: 1,
+    },
+    image: {
+        width: 100, //图片会根据宽度，首先等比例缩放，然后在根据所设置的高度展示图片，高度不足就会有一部分显示不全（保证照片不变形）
+        height: 120,
+        margin: 8,
+    },
     container: {
-        flex: 2,
-        flexDirection:'column', //主轴方向：row | column（默认）
-        justifyContent: 'center', //主轴对齐方式：flex-start | flex-end | center（默认） | space-between | space-around
-        alignItems: 'stretch', //交叉轴对齐方式：flex-start | flex-end | center | stretch（默认）
-        backgroundColor: '#F5FCFF'
-    },
-    content: {
-        //alignSelf: 'flex-start', //单独设置自己在交叉轴的对齐方式：auto | flex-start | flex-end | center | stretch
-        fontSize: 20,
-        textAlign: 'center',
-        padding: 10,
-        margin: 10,
-        borderWidth: 1,
-        borderColor: 'red',
-        borderRadius: 5,
-    },
-    welcome: {
-        color: '#e53577',
-        backgroundColor:'#ff9933',
-        flex:5
-    },
-    instructions: {
-        color: '#c55',
-        backgroundColor:'#66c1ff',
-        flex:1
+        flex: 1,
+        backgroundColor: '#F5FCFF',
     }
 });
+
+/*导出样式*/
+module.exports = styles;

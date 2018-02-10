@@ -10,7 +10,7 @@ import React, {Component} from 'react';
 /*导入react-native组件*/
 import {
     //AppRegistry,
-    StyleSheet,
+    Stylesheet,
     Text,
     View,
     Image,
@@ -22,8 +22,11 @@ import {
 
 /*导入路由组件*/
 import {
-    NavigationActions
+    NavigationActions //自定义跳转行为
 } from 'react-navigation'
+
+/*导入样式表*/
+import Styles from '../Styles/Main'
 
 /* 通过自定义一个方法来实现页面跳转,并传递参数*/
 const navigateAction = NavigationActions.navigate({
@@ -32,6 +35,7 @@ const navigateAction = NavigationActions.navigate({
     action: NavigationActions.navigate({routeName: 'MovieDetail'})
 })
 
+/*导出组件*/
 export default class MovieList extends Component<Props> {
 
     constructor(props) {
@@ -71,21 +75,21 @@ export default class MovieList extends Component<Props> {
                     dispatch(navigateAction)
                 }}
             >
-                <View style={styles.item}>
-                    <View style={styles.itemImage}>
-                        <Image style={styles.image}
+                <View style={Styles.item} id={rowData.id} name={rowData.title}>
+                    <View style={Styles.itemImage}>
+                        <Image style={Styles.image}
                                source={{uri: rowData.cover}}></Image>
                     </View>
-                    <View style={styles.itemContent}>
-                        <Text style={styles.itemHeader}>{rowData.title}</Text>
-                        <Text style={styles.itemMeta}>
+                    <View style={Styles.itemContent}>
+                        <Text style={Styles.itemHeader}>{rowData.title}</Text>
+                        <Text style={Styles.itemMeta}>
                            {rowData.playable ?
-                               <Text style={styles.itemMetaOn}>已上线</Text>
+                               <Text style={Styles.itemMetaOn}>已上线</Text>
                                : '未上线'}
                         </Text>
                         <Text>
                             评分：
-                            <Text style={styles.redText}>
+                            <Text style={Styles.redText}>
                                 {rowData.rate}
                             </Text>
                         </Text>
@@ -114,7 +118,7 @@ export default class MovieList extends Component<Props> {
             );
         } else {
             return (
-                <View style={styles.container}>
+                <View style={Styles.container}>
                     <ListView
                         dataSource={this.state.data}
                         renderRow={this.renderMovieList.bind(this)} //bind(this)能解决路由跳转问题
@@ -124,49 +128,3 @@ export default class MovieList extends Component<Props> {
         }
     }
 }
-
-let styles = StyleSheet.create({
-    redText: {
-        color: '#db2828',
-        fontSize: 15,
-        fontStyle:'italic'
-    },
-    itemMetaOn: {
-        color: '#66c1ff',
-    },
-    itemMeta: {
-        fontSize: 16,
-        color: 'rgba(0,0,0,0.6)',
-        marginBottom: 6,
-    },
-    itemHeader: {
-        fontSize: 18,
-        fontFamily: 'Helvetica Neue',
-        fontWeight: '300',
-        color: '#6435c9',
-        marginBottom: 6,
-    },
-    itemContent: {
-        flex: 1,
-        marginLeft: 13,
-        marginTop: 6,
-    },
-    item: {
-        flexDirection: 'row',
-        borderBottomWidth: 1,
-        borderColor: 'rgba(100,53,201,0.1)',
-        // paddingBottom: 6,
-        flex: 1,
-    },
-    image: {
-        width: 100, //图片会根据宽度，首先等比例缩放，然后在根据所设置的高度展示图片，高度不足就会有一部分显示不全（保证照片不变形）
-        height: 120,
-        margin: 8,
-    },
-    container: {
-        flex: 1,
-        backgroundColor: '#eae7ff',
-    }
-});
-
-// AppRegistry.registerComponent('MovieList', () => MovieList);

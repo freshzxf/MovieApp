@@ -43,7 +43,37 @@ const ShiTuIcon = require('../../resources/img/ShiTu.png');
  * 3、Test3是通过封装navigationOptions实现Tabbar和导航的
  */
 
-/*定义默认打开的首页*/
+// 二次封装导航栏配置函数
+const TabOptions = (navTitle, normalImage, selectedImage, tabBarTitle) => {
+    const headerTitle = navTitle; //顶部标题
+    const tabBarLabel = tabBarTitle; //底部标题
+    const tabBarIcon = (({tintColor, focused}) => {
+        return (
+            <Image
+                source={!focused ? normalImage : selectedImage}
+                style={[{height: 20, width: 20}, {tintColor: tintColor}]}
+            />
+        )
+    });
+    const headerTitleStyle = {
+        color: 'white',
+        fontSize: 16,
+        alignSelf: 'center',
+        textAlign:'center'
+    }; // 设置导航条文字样式安卓上如果要设置文字居中，只要添加alignSelf:'center'就可以了
+    // header的style
+    const headerStyle = {
+        backgroundColor: '#6435c9',
+        height: 44,
+    }; // 设置导航条的样式如果想去掉安卓导航条底部阴影可以添加elevation: 0,iOS去掉阴影是
+    const gesturesEnabled = true; // 是否支持滑动返回，iOS默认支持，安卓默认关闭
+    const tabBarVisible = true; // 是否隐藏底部标签栏默认不隐藏(true)
+
+    return {headerTitle, tabBarLabel, tabBarIcon, headerTitleStyle, headerStyle, gesturesEnabled, tabBarVisible};
+};
+
+
+/*注册Tabs*/
 const MyTab = TabNavigator({
     Tab0: {
         screen: ClassicMovieList,
@@ -94,7 +124,7 @@ const MyTab = TabNavigator({
         /* iOS属性 */
         // activeTintColor:'#e62129', // label和icon的前景色 活跃状态下（选中）
         // inactiveTintColor:'#929292', // label和icon的前景色 不活跃状态下(未选中)
-        // activeBackgroundColor:'blue', //label和icon的背景色 活跃状态下（选中） 
+        // activeBackgroundColor:'blue', //label和icon的背景色 活跃状态下（选中）
         // inactiveBackgroundColor:'green', // label和icon的背景色 不活跃状态下（未选中）
         // showLabel:true, // 是否显示label，默认开启
         // style:{}, // tabbar的样式
@@ -102,59 +132,30 @@ const MyTab = TabNavigator({
     }
 });
 
-
-// 初始化StackNavigator (将需要跳转的页面注册在这里面，全局才可以跳转)
+/* 注册并导出StackNavigator组件栈 (将需要跳转的页面注册在这里面，全局才可以跳转)
+** 在StackNavigator中注册后的组件都有navigation这个属性. navigation又有5个参数:navigate, goBack, state, setParams, dispatch
+*/
 export default MyApp = StackNavigator({
     // 将TabNavigator包裹在StackNavigator里面可以保证跳转页面的时候隐藏tabbar
-    MyTab: {
+    // App启动时默认打开以下第一个组件
+    Index: {
         screen: MyTab,
     },
     MovieDetail: {
         screen: MovieDetail,
-    },
+        navigationOptions: () => TabOptions('影片详情', ShiTuIcon, ShiTuIcon, '影片详情'),
+    }, // 此处设置了, 会覆盖组件内的static navigationOptions`设置. 具体参数详见下文},
     Detail1: {
         screen: Detail1
     },
     Detail2: {
         screen: Detail2,
     },
+}, {
+    initialRouteName: 'Index', // 设置默认的页面组件(默认是第一个tab页面)
+    mode: 'card',  // 页面切换模式, 左右是card(相当于iOS中的push效果), 上下是modal(相当于iOS中的modal效果)
+    headerMode: 'float', // 导航栏的显示模式, screen: 有渐变透明效果, float: 无透明效果, none: 隐藏导航栏
+    //onTransitionStart: ()=>{ console.log('导航栏切换开始'); },  // 回调
+    //onTransitionEnd: ()=>{ console.log('导航栏切换结束'); }  // 回调
+});
 
-}, {});
-
-// 二次封装导航栏配置函数
-const TabOptions = (navTitle, normalImage, selectedImage, tabBarTitle) => {
-    const headerTitle = navTitle; //顶部标题
-    const tabBarLabel = tabBarTitle; //底部标题
-    const tabBarIcon = (({tintColor, focused}) => {
-        return (
-            <Image
-                source={!focused ? normalImage : selectedImage}
-                style={[{height: 20, width: 20}, {tintColor: tintColor}]}
-            />
-        )
-    });
-    const headerTitleStyle = {
-        color: 'white',
-        fontSize: 16,
-        alignSelf: 'center'
-    }; // 设置导航条文字样式安卓上如果要设置文字居中，只要添加alignSelf:'center'就可以了
-    // header的style
-    const headerStyle = {
-        backgroundColor: '#6435c9',
-        height: 44,
-    }; // 设置导航条的样式如果想去掉安卓导航条底部阴影可以添加elevation: 0,iOS去掉阴影是
-    const gesturesEnabled = true; // 是否支持滑动返回，iOS默认支持，安卓默认关闭
-    const tabBarVisible = true; // 是否隐藏底部标签栏默认不隐藏(true)
-
-    return {headerTitle, tabBarLabel, tabBarIcon, headerTitleStyle, headerStyle, gesturesEnabled, tabBarVisible};
-};
-
-// const AppWithNavigationState = ({ dispatch, nav }) => (
-//     <MyApp navigation={addNavigationHelpers({ dispatch, state: nav })}/>
-// );
-//
-// const mapStateToProps = state => ({
-//     nav: state.nav,
-// });
-
-// export default connect(mapStateToProps)(AppWithNavigationState);
